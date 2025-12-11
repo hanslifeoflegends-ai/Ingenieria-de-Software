@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitar Servicio</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background:#eef0ff;
+            margin:0;
+            font-family:Arial, sans-serif;
+        }
+
+        .topbar {
+            width:100%;
+            background:#1a22ff;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+            font-weight:bold;
+            font-size:26px;
+        }
+
+        .empresa {
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .empresa img { width:40px; }
+
+        .logout-btn {
+            background:white;
+            color:#1a22ff;
+            padding:8px 16px;
+            border-radius:10px;
+            border:none;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        .container {
+            width:60%;
+            background:white;
+            margin:40px auto;
+            padding:35px 40px;
+            border-radius:12px;
+            box-shadow:0 0 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align:center;
+            font-size:28px;
+            color:#001f5b;
+            margin-bottom:25px;
+        }
+
+        .form-group { margin-bottom:15px; }
+
+        label {
+            font-weight:bold;
+            color:#002b63;
+        }
+
+        input, select, textarea {
+            width:100%;
+            padding:10px;
+            border-radius:6px;
+            border:1px solid #aaa;
+            margin-top:5px;
+        }
+
+        textarea { resize:none; height:90px; }
+
+        .btn-primary {
+            width:100%;
+            padding:14px;
+            background:#0033a0;
+            color:white;
+            border:none;
+            border-radius:10px;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            margin-top:20px;
+        }
+
+        .btn-primary:hover {
+            background:#001f5b;
+        }
+
+        .volver {
+            display:block;
+            text-align:center;
+            margin-top:25px;
+            font-weight:bold;
+            color:#0033a0;
+            text-decoration:none;
+        }
+
+        .logo-bottom {
+            position:fixed;
+            bottom:20px;
+            right:20px;
+            width:120px;
+            opacity:0.25;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <div class="container">
+        <h2>Solicitar Servicio</h2>
+
+        <div class="form-group">
+            <label>Tipo de carga</label>
+            <select id="tipoCarga">
+                <option value="">Seleccione</option>
+                <option value="agricola">Agrícola</option>
+                <option value="aridos">Áridos</option>
+                <option value="general">General</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Origen</label>
+            <input type="text" id="origen" placeholder="Dirección de origen">
+        </div>
+
+        <div class="form-group">
+            <label>Destino</label>
+            <input type="text" id="destino" placeholder="Dirección de destino">
+        </div>
+
+        <div class="form-group">
+            <label>Fecha requerida</label>
+            <input type="date" id="fecha">
+        </div>
+
+        <button class="btn-primary" onclick="enviarSolicitud()">Enviar Solicitud</button>
+
+        <a class="volver" href="menu-usuario.html">Volver al menú</a>
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+    <!-- SCRIPT CORRECTO -->
+    <script src="../js/solicitar-servicio.js"></script>
+
+</body>
+</html>

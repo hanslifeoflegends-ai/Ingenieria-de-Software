@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Camión</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* CARD PRINCIPAL */
+        .container {
+            width: 60%;
+            background: white;
+            margin: 40px auto;
+            padding: 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 900;
+            color: #001f5b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #002b63;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        /* BOTONES */
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #0033a0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #001f5b;
+        }
+
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #0033a0;
+            text-decoration: none;
+        }
+
+        /* LOGO INFERIOR */
+        .logo-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="container">
+
+        <h2>Registrar Camión</h2>
+
+        <form id="formRegistrarCamion">
+
+            <label>Patente</label>
+            <input type="text" id="patente" placeholder="Ingrese patente">
+
+            <label>Marca</label>
+            <input type="text" id="marca" placeholder="Ingrese marca del camión">
+
+            <label>Modelo</label>
+            <input type="text" id="modelo" placeholder="Ingrese modelo">
+
+            <label>Año</label>
+            <input type="number" id="anio" placeholder="Año de fabricación">
+
+            <label>Capacidad (toneladas)</label>
+            <input type="number" id="capacidad" placeholder="Capacidad en toneladas">
+
+            <button type="submit" class="btn-primary">Registrar Camión</button>
+
+        </form>
+
+        <a class="volver" href="administracion.html">Volver</a>
+
+    </div>
+
+    <!-- LOGO ABAJO -->
+    <img src="../img/camion.png" class="logo-bottom">
+
+    <script src="../js/registrarCamion.js"></script>
+
+</body>
+</html>

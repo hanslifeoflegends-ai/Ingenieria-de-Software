@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Diario</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* --- TOPBAR UNIFICADA --- */
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            width: 70%;
+            background: white;
+            margin: 40px auto;
+            padding: 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 900;
+            color: #001f5b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #002b63;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            margin-top: 5px;
+        }
+
+        /* --- BOTONES --- */
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #0033a0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .btn-primary:hover {
+            background: #001f5b;
+        }
+
+        /* --- TABLA --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            font-size: 15px;
+        }
+
+        th {
+            background: #1a22ff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        /* --- VOLVER --- */
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #0033a0;
+            text-decoration: none;
+        }
+
+        /* --- LOGO INFERIOR --- */
+        .logo-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+    </style>
+
+    <!-- JS DEL REPORTE -->
+    <script defer src="../js/reporteDiario.js"></script>
+</head>
+
+<body>
+
+    <!-- TOPBAR GLOBAL -->
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png" alt="Chile">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">
+            Cerrar Sesión
+        </button>
+    </div>
+
+    <!-- CONTENEDOR -->
+    <div class="container">
+
+        <h2>Reporte Diario</h2>
+
+        <label for="fechaReporte">Seleccione fecha del servicio:</label>
+        <input type="date" id="fechaReporte">
+
+        <button class="btn-primary" id="btnGenerar">Generar Reporte</button>
+
+        <!-- AHORA SIN onclick -->
+        <button class="btn-primary" id="btnDescargar" style="display:none;">
+            Descargar PDF
+        </button>
+
+        <h3 style="margin-top: 25px;">Resultados:</h3>
+        <div id="mensaje"></div>
+
+        <!-- TABLA DE RESULTADOS -->
+        <table id="tablaReporte" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Servicio</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Conductor</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <a class="volver" href="reportesMenu.html">← Volver</a>
+
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+</body>
+</html>

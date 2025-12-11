@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body { 
+            background:#eef0ff; 
+            font-family:Arial; 
+            margin:0; 
+            padding:0; 
+        }
+
+        /* TOPBAR */
+        .topbar {
+            width:100%;
+            background:#1a22ff;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+            font-weight:bold;
+            font-size:26px;
+        }
+
+        .empresa {
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .empresa img {
+            width:40px;
+            height:40px;
+        }
+
+        .logout-btn {
+            background:white;
+            color:#1a22ff;
+            padding:8px 16px;
+            border-radius:10px;
+            font-weight:bold;
+            border:none;
+            cursor:pointer;
+        }
+
+        /* TÍTULO */
+        h2 {
+            text-align:center;
+            margin-top:35px;
+            font-size:32px;
+            color:#001f5b;
+            font-weight:900;
+        }
+
+        /* CONTENEDOR DE BOTONES */
+        .container { 
+            max-width:900px; 
+            margin:20px auto 80px auto; 
+            text-align:center; 
+        }
+
+        /* BOTONES */
+        .btn {
+            background:#1a22ff;
+            color:white;
+            border:none;
+            width:70%;
+            padding:18px;
+            border-radius:20px;
+            margin:15px auto;
+            font-size:20px;
+            cursor:pointer;
+            display:block;
+        }
+
+        .btn:hover { 
+            background:#001bb8; 
+        }
+
+        /* BOTÓN VOLVER */
+        .btn-back {
+            background:#4b4b4b !important;
+        }
+
+        /* LOGO CAMIÓN INFERIOR */
+        .logo-bottom {
+            position:fixed;
+            bottom:15px;
+            right:15px;
+            opacity:0.25;
+            width:120px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <!-- TÍTULO -->
+    <h2>REPORTES</h2>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+
+        <button class="btn" onclick="location.href='reporteDiario.html'">Reporte Diario</button>
+        <button class="btn" onclick="location.href='reporteProductividad.html'">Reporte de conductor</button>
+
+        <button class="btn btn-back" onclick="location.href='menu.html'">Volver</button>
+
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+</body>
+</html>

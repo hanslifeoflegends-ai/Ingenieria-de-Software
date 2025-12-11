@@ -1,0 +1,250 @@
+/* ============================
+   ESTILO DE LOGIN / AUTENTICACIÓN
+============================ */
+
+.auth-body {
+  background-color: #f2f2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-container {
+  background: white;
+  padding: 40px;
+  width: 380px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.auth-title {
+  font-size: 26px;
+  margin-bottom: 25px;
+  color: #1400ff;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  font-size: 16px;
+}
+
+.auth-button {
+  width: 100%;
+  background-color: #1400ff;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.auth-links {
+  margin-top: 20px;
+}
+
+.auth-links a {
+  color: #1400ff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* ============================
+   MENÚ LATERAL (NO USADO AHORA)
+============================ */
+
+.side-menu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 230px;
+  height: 100%;
+  background-color: #111;
+  color: white;
+  padding-top: 60px;
+  transform: translateX(100%);
+  transition: .3s;
+}
+
+.side-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.side-menu li {
+  padding: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #444;
+}
+
+.hidden {
+  transform: translateX(100%);
+}
+
+.menu-button {
+  cursor: pointer;
+  background-color: white;
+  color: #1400ff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* ============================
+   FORMULARIOS DEL SISTEMA
+============================ */
+
+/* Fondo blanco para todas las vistas de formularios */
+.fondo.blanco {
+    background: #ffffff !important;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenedor de formularios */
+.container-form {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+.container-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000066;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #000033;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+    font-size: 15px;
+}
+
+/* Botón azul corporativo */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #0033a0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #001f5b;
+}
+
+.btn-volver {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    color: #0033a0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.mensaje {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* ============================
+   LOGO EN LA ESQUINA
+============================ */
+
+.logo-corner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 110px;
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+
+/* ============================
+   HEADER GLOBAL DEL SISTEMA
+============================ */
+
+.topbar {
+    width: 100%;
+    background: #1a22ff;
+    padding: 8px 18px;              /* más pequeño y elegante */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;                /* antes 26px */
+    box-sizing: border-box;
+}
+
+.empresa {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.empresa img {
+    width: 28px;                     /* bandera ajustada */
+    height: 28px;
+}
+
+.logout-btn {
+    background: white;
+    color: #1a22ff;
+    padding: 6px 12px;               /* más pequeño */
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;                 /* más compacto */
+    font-weight: bold;
+}
+
+
+.fondo {
+    background-color: #eef1ff;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.contenido-pagina {
+    margin-top: 120px; /* asegura que NO tape el header */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

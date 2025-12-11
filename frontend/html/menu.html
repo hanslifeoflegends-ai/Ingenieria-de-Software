@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-top: 35px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #001f5b;
+            font-weight: 900;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding-bottom: 60px;
+        }
+
+        .card {
+            background: #1a22ff;
+            padding: 18px;
+            border-radius: 16px;
+            margin: 18px auto;
+            width: 60%;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            background: #000fcf;
+            transform: scale(1.02);
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            width: 90px;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body> 
+
+    <!-- HEADER GLOBAL -->
+    <div id="header-container"></div>
+    <script src="../js/header.js"></script>
+
+    <h1>MENÚ PRINCIPAL</h1>
+
+    <div class="container">
+
+        <!-- OPCIÓN PARA USUARIO Y ADMIN -->
+        <div class="card user-only admin-only" onclick="location.href='operaciones.html'">
+            Gestión Operativa
+        </div>
+
+        <!-- SOLO ADMINISTRADOR -->
+        <div class="card admin-only" onclick="location.href='administracion.html'">
+            Administración General
+        </div>
+
+        <!-- SOLO ADMINISTRADOR -->
+        <div class="card admin-only" onclick="location.href='reportesMenu.html'">
+            Reportes
+        </div>
+
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+</body>
+</html>

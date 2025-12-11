@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estado del Camión</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img { width: 40px; }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #001f5b;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #1a22ff;
+            color: white;
+        }
+
+        select {
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+        }
+
+        .disabled-select {
+            background: #f1f1f1;
+            color: #666;
+            pointer-events: none;
+        }
+
+        .btn-save {
+            padding: 9px 16px;
+            background: #1a22ff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-save:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+        .btn-delete {
+            padding: 9px 16px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-delete:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .volver a {
+            text-decoration: none;
+            color: #001f5b;
+            font-weight: bold;
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="empresa">
+        <span>TRANSPORTES SEPÚLVEDA</span>
+        <img src="../img/chile.png" alt="Bandera Chile">
+    </div>
+
+    <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+</div>
+
+<div class="card">
+    <h2>Estado del Camión</h2>
+
+    <table id="tablaEstado">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Patente</th>
+                <th>Modelo</th>
+                <th>Estado Actual</th>
+                <th>Actualizar Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="6">Cargando datos...</td></tr>
+        </tbody>
+    </table>
+
+    <div class="volver">
+        <a href="operaciones.html">← Volver</a>
+    </div>
+</div>
+
+<img src="../img/camion.png" class="logo-bottom">
+
+<script>
+async function cargarCamiones() {
+    try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("http://localhost:3000/camiones", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+        const tbody = document.querySelector("#tablaEstado tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(cam => {
+
+            const estaOcupado = cam.estado === "ocupado" || cam.tieneViajeActivo;
+
+            const mensajeExtra = estaOcupado
+                ? `<span style="color:red; font-weight:bold;">🚚 Camión actualmente en ruta</span>`
+                : "";
+
+            const estadoColor =
+                cam.estado === "disponible"
+                    ? `<strong style="color:green;">${cam.estado}</strong>`
+                    : `<strong style="color:red;">${cam.estado}</strong>`;
+
+            let controlesHTML = "";
+            let botonEliminar = "";
+
+            if (estaOcupado) {
+                controlesHTML = `
+                    <select class="disabled-select">
+                        <option>Ocupado</option>
+                    </select>
+                    <button class="btn-save" disabled>Guardar</button>
+                `;
+
+                botonEliminar = `
+                    <button class="btn-delete" disabled>Eliminar</button>
+                `;
+            } else {
+                controlesHTML = `
+                    <select id="estado-${cam.id}">
+                        <option value="disponible" ${cam.estado==="disponible"?"selected":""}>Disponible</option>
+                        <option value="mantenimiento" ${cam.estado==="mantenimiento"?"selected":""}>Mantenimiento</option>
+                    </select>
+                    <button class="btn-save" onclick="actualizarEstado(${cam.id})">Guardar</button>
+                `;
+
+                botonEliminar = `
+                    <button class="btn-delete" onclick="eliminarCamion(${cam.id})">Eliminar</button>
+                `;
+            }
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${cam.id}</td>
+                    <td>${cam.patente}</td>
+                    <td>${cam.modelo || "-"}</td>
+
+                    <td>
+                        ${estadoColor}<br>
+                        ${mensajeExtra}
+                    </td>
+
+                    <td>${controlesHTML}</td>
+                    <td>${botonEliminar}</td>
+                </tr>
+            `;
+        });
+
+    } catch (err) {
+        console.error("Error cargando camiones:", err);
+        alert("No se pudieron cargar los camiones.");
+    }
+}
+
+async function actualizarEstado(id) {
+    const nuevoEstado = document.getElementById(`estado-${id}`).value;
+
+    const res = await fetch(`http://localhost:3000/camiones/estado/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({ nuevoEstado })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        alert(data.mensaje);
+        return;
+    }
+
+    alert("Estado actualizado correctamente.");
+    cargarCamiones();
+}
+
+async function eliminarCamion(id) {
+
+    if (!confirm("⚠ ¿Seguro deseas eliminar este camión?")) return;
+
+    const res = await fetch(`http://localhost:3000/camiones/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        alert(data.mensaje);
+        return;
+    }
+
+    alert("Camión eliminado.");
+    cargarCamiones();
+}
+
+cargarCamiones();
+</script>
+
+</body>
+</html>

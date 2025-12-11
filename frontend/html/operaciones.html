@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión Operativa</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body { 
+            background-color:#eef0ff; 
+            font-family:Arial, sans-serif; 
+            margin:0;
+            padding:0;
+        }
+
+        /* --- BARRA SUPERIOR --- */
+        .topbar {
+            width:100%;
+            background:#1a22ff;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+            font-weight:bold;
+            font-size:26px;
+        }
+
+        .empresa {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            font-size:26px;
+        }
+
+        .empresa img {
+            width:40px;
+            height:40px;
+        }
+
+        .logout-btn {
+            background:white;
+            color:#1a22ff;
+            padding:8px 16px;
+            border-radius:10px;
+            font-weight:bold;
+            border:none;
+            cursor:pointer;
+        }
+
+        /* --- TITULO --- */
+        h2 {
+            text-align:center;
+            font-size:32px;
+            margin-top:35px;
+            color:#001f5b;
+            font-weight:900;
+        }
+
+        /* --- BOTONES --- */
+        .container {
+            max-width: 900px;
+            margin: 20px auto 80px auto;
+            text-align: center;
+        }
+
+        .btn {
+            background:#1a22ff;
+            color:white;
+            border:none;
+            width:70%;
+            padding:18px;
+            border-radius:20px;
+            margin:15px auto;
+            font-size:20px;
+            cursor:pointer;
+            transition:0.2s;
+        }
+
+        .btn:hover { background:#001bb8; }
+
+        .btn-gray {
+            background:#4b4b4b !important;
+        }
+
+        /* --- LOGO INFERIOR --- */
+        .logo-bottom {
+            position:fixed;
+            bottom:15px;
+            right:15px;
+            opacity:0.25;
+            width:120px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRA SUPERIOR -->
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png" alt="Bandera de Chile">
+        </div>
+
+        <button class="logout-btn" onclick="logout()">
+            Cerrar Sesión
+        </button>
+    </div>
+
+    <!-- TITULO PRINCIPAL -->
+    <h2>GESTIÓN OPERATIVA</h2>
+
+    <!-- BOTONES DEL MENU -->
+    <div class="container">
+
+        <button class="btn" onclick="location.href='solicitudes.html'">
+            Solicitudes Pendientes
+        </button>
+
+        <button class="btn" onclick="location.href='inicio-viaje.html'">
+            Inicio de Viaje
+        </button>
+
+        <button class="btn" onclick="location.href='fin-viaje.html'">
+            Fin de Viaje
+        </button>
+
+        <button class="btn" onclick="location.href='historial-camion.html'">
+            Historial por Camión
+        </button>
+
+        <button class="btn" onclick="location.href='historial-cliente.html'">
+            Historial por Cliente
+        </button>
+
+        <button class="btn" onclick="location.href='estado-camion.html'">
+            Estado del Camión
+        </button>
+
+        <!-- 🔥 BOTÓN CORREGIDO -->
+        <button class="btn" onclick="location.href='estadoConductor.html'">
+            Estado del Conductor
+        </button>
+
+        <button class="btn btn-gray" onclick="location.href='menu.html'">
+            Volver
+        </button>
+
+    </div>
+
+    <!-- LOGO INFERIOR -->
+    <img src="../img/camion.png" class="logo-bottom">
+
+    <!-- SCRIPT DE SEGURIDAD -->
+    <script>
+        const token = localStorage.getItem("token");
+        const rol = localStorage.getItem("rol");
+
+        if (!token) {
+            window.location.href = "login.html";
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+</html>

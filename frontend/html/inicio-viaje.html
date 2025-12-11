@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio de Viaje</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .card {
+            width: 55%;
+            margin: 50px auto;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #001f5b;
+            font-weight: 900;
+        }
+
+        label {
+            font-weight: bold;
+            color: #001f5b;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #aaa;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            background: #f8f8ff;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #1a22ff;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background: #001bb8;
+        }
+
+        .btn-ok {
+            display: none;
+            width: 100%;
+            background: #007700;
+            color: white;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+
+        .mensaje-box {
+            display: none;
+            background: #e9ffe9;
+            border-left: 6px solid #04a104;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #003300;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png">
+        </div>
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+        <h2>INICIO DE VIAJE</h2>
+
+        <label for="viajeId">Viaje Asignado</label>
+        <select id="viajeId"></select>
+
+        <label>Hora de Inicio</label>
+        <input type="datetime-local" id="horaInicio" readonly>
+
+        <label>Ubicación de Inicio</label>
+        <input type="text" id="ubicacion" placeholder="Ej: Bodega San Bernardo">
+
+        <button class="btn-primary" onclick="registrarInicio()">Iniciar Viaje</button>
+
+        <div id="mensajeBox" class="mensaje-box"></div>
+        <button id="btnOk" class="btn-ok" onclick="redirigir()">OK</button>
+
+        <div class="volver">
+            <a href="operaciones.html">← Volver</a>
+        </div>
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+    <script src="../js/inicioViaje.js"></script>
+
+</body>
+
+</html>

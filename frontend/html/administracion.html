@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administración General</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body { background:#eef0ff; font-family:Arial; margin:0; padding:0; }
+
+        .topbar {
+            width:100%;
+            background:#1a22ff;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+            font-weight:bold;
+            font-size:26px;
+        }
+
+        .empresa {
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .empresa img {
+            width:40px;
+            height:40px;
+        }
+
+        .logout-btn {
+            background:white;
+            color:#1a22ff;
+            padding:8px 16px;
+            border-radius:10px;
+            font-weight:bold;
+            border:none;
+            cursor:pointer;
+        }
+
+        h2 {
+            text-align:center;
+            margin-top:35px;
+            font-size:32px;
+            color:#001f5b;
+            font-weight:900;
+        }
+
+        .container { max-width:900px; margin:20px auto 80px auto; text-align:center; }
+
+        .btn {
+            background:#1a22ff;
+            color:white;
+            border:none;
+            width:70%;
+            padding:18px;
+            border-radius:20px;
+            margin:15px auto;
+            font-size:20px;
+            cursor:pointer;
+        }
+
+        .btn:hover { background:#001bb8; }
+
+        .logo-bottom {
+            position:fixed;
+            bottom:15px;
+            right:15px;
+            opacity:0.25;
+            width:120px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <h2>ADMINISTRACIÓN GENERAL</h2>
+    
+
+    <div class="container">
+
+        <button class="btn" onclick="location.href='registrarCamion.html'">Registrar Camión</button>
+        <button class="btn" onclick="location.href='registrarConductor.html'">Registrar Conductor</button>
+        <button class="btn" onclick="location.href='alertasMantencion.html'">Alertas de Mantencion</button>
+        <button class="btn" onclick="location.href='mantenimiento.html'">Registro de Mantenimiento</button>
+
+        <button class="btn" onclick="location.href='menu.html'" style="background:#4b4b4b;">Volver</button>
+
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Productividad por Conductor</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script defer src="../js/reporteProductividad.js"></script>
+
+    <style>
+        body { 
+            background: #eef0ff; 
+            margin: 0; 
+            font-family: Arial; 
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .logout-btn, .volver-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* CONTENEDOR */
+        .container {
+            width: 70%;
+            margin: 40px auto;
+            background: white;
+            padding: 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #001f5b;
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        label {
+            font-weight: bold;
+            color: #002b63;
+            margin-top: 15px;
+            display: block;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+            margin-top: 8px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #0033a0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #001f5b;
+        }
+
+        /* Estilo para los resultados */
+        #resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #resultado h3 {
+            font-size: 24px;
+            color: #0033a0;
+        }
+
+        #resultado table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        #resultado table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        #resultado th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        #resultado th {
+            background-color: #0033a0;
+            color: white;
+        }
+
+        #resultado td {
+            background-color: #f9f9f9;
+        }
+
+        /* Estilo para el botón "Volver" */
+        .volver-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .volver-btn {
+            width: 200px;
+            padding: 12px;
+            background: #0033a0;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .volver-btn:hover {
+            background: #001f5b;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <span>TRANSPORTES SEPÚLVEDA</span>
+    <button class="logout-btn" onclick="location.href='cerrarSesion.html'">Cerrar Sesión</button>
+</div>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<div class="container">
+    <h2>Reporte de Productividad por Conductor</h2>
+
+    <label for="conductorId">Seleccione Conductor</label>
+    <select id="conductorId">
+        <option value="">Cargando...</option>
+    </select>
+
+    <label>Fecha inicio</label>
+    <input type="date" id="fechaInicio">
+
+    <label>Fecha fin</label>
+    <input type="date" id="fechaFin">
+
+    <button class="btn" id="btnGenerar">Generar Reporte</button>
+
+    <div id="resultado"></div>
+</div>
+
+<!-- Botón Volver al final -->
+<div class="volver-btn-container">
+    <button class="volver-btn" onclick="location.href='reportesMenu.html'">← Volver</button>
+</div>
+
+</body>
+</html>

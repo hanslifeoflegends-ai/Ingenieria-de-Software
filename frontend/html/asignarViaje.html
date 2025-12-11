@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Asignar Viaje</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body { background-color:#eef0ff; margin:0; font-family:Arial; }
+        .topbar { width:100%; background:#1a22ff; padding:15px 30px;
+            display:flex; justify-content:space-between; align-items:center;
+            color:white; font-weight:bold; font-size:26px; }
+        .empresa { display:flex; align-items:center; gap:12px; }
+        .empresa img { width:40px; }
+        .logout-btn { background:white; color:#1a22ff; padding:8px 16px; border-radius:10px;
+            border:none; font-weight:bold; cursor:pointer; }
+        .form-container { width:480px; margin:50px auto; background:white; padding:40px 45px;
+            border-radius:20px; box-shadow:0 0 25px rgba(0,0,0,0.15); }
+        h2 { text-align:center; color:#001f5b; font-size:30px;
+            margin-bottom:30px; font-weight:900; }
+        .input-group { margin-bottom:22px; display:flex; flex-direction:column; }
+        label { font-weight:bold; color:#002b63; margin-bottom:5px; }
+        input, select { width:100%; padding:12px; border-radius:10px;
+            border:1px solid #aaa; font-size:15px; background:#f8f8ff; }
+        .btn-primary { width:100%; background:#0033a0; color:white; border:none;
+            padding:13px; border-radius:10px; font-size:17px; cursor:pointer;
+            margin-top:10px; font-weight:bold; }
+        .btn-primary:hover { background:#001f5b; }
+        .logo-bottom { position:fixed; bottom:20px; right:20px; width:120px; opacity:0.25; }
+
+        #modalWhatsApp {
+            position: fixed; top:0; left:0; right:0; bottom:0;
+            background: rgba(0,0,0,0.55);
+            display:none; justify-content:center; align-items:center;
+        }
+        #modalWhatsApp .modal-content {
+            background:white; padding:25px; width:420px; border-radius:12px;
+            box-shadow:0 0 15px rgba(0,0,0,0.25); text-align:center;
+        }
+        #modalMensaje { font-size:16px; margin-bottom:15px; text-align:left; }
+        #btnWhatsOk {
+            padding:10px 20px; background:#1a22ff; color:white; border:none;
+            border-radius:8px; cursor:pointer; font-weight:bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="empresa">
+        <span>TRANSPORTES SEPÚLVEDA</span>
+        <img src="../img/chile.png">
+    </div>
+    <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+</div>
+
+<div class="form-container">
+    <h2>ASIGNAR VIAJE</h2>
+
+    <div class="input-group">
+        <label>Cliente</label>
+        <select id="selectCliente" disabled></select>
+    </div>
+
+    <div class="input-group">
+        <label>Origen</label>
+        <input type="text" id="origen" readonly>
+    </div>
+
+    <div class="input-group">
+        <label>Destino</label>
+        <input type="text" id="destino" readonly>
+    </div>
+
+    <div class="input-group">
+        <label>Camión</label>
+        <select id="selectCamion"></select>
+    </div>
+
+    <div class="input-group">
+        <label>Conductor</label>
+        <select id="selectConductor"></select>
+    </div>
+
+    <button class="btn-primary" onclick="asignarViaje()">Asignar Viaje</button>
+</div>
+
+<img src="../img/camion.png" class="logo-bottom">
+
+<!-- MODAL -->
+<div id="modalWhatsApp">
+    <div class="modal-content">
+        <div id="modalMensaje"></div>
+        <button id="btnWhatsOk">OK</button>
+    </div>
+</div>
+
+<!-- AQUI VA LO IMPORTANTE -->
+<script src="../js/asignarViaje.js"></script>
+
+</body>
+</html>

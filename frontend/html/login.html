@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script defer src="../js/auth.js"></script>
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+        <h2 class="auth-title">INICIAR SESIÓN</h2>
+
+        <input id="correo" type="email" placeholder="Correo electrónico" class="auth-input">
+        <input id="password" type="password" placeholder="Contraseña" class="auth-input">
+
+        <button id="btnLogin" class="auth-button" onclick="login()">Ingresar</button>
+
+        <div class="auth-links">
+            <a href="/html/recuperar.html">¿Olvidaste tu contraseña?</a><br>
+            <a href="/html/register.html">Crear una cuenta</a>
+        </div>
+    </div>
+
+</body>
+</html>

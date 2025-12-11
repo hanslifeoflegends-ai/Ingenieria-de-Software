@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Solicitudes</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 26px;
+        }
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .empresa img { width: 40px; }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 70%;
+            background: white;
+            margin: 40px auto;
+            padding: 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 900;
+            color: #001f5b;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            font-size: 15px;
+        }
+
+        th {
+            background: #1a22ff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #0033a0;
+            text-decoration: none;
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+
+        .btn-asignar {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: #1a22ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-asignar-disabled {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: #bfbfbf;
+            color: white;
+            border: none;
+            cursor: not-allowed;
+            opacity: 0.85;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="empresa">
+        <span>TRANSPORTES SEPÚLVEDA</span>
+        <img src="../img/chile.png" alt="Chile">
+    </div>
+    <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+</div>
+
+<div class="container">
+    <h2>Listado de Solicitudes</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Carga</th>
+                <th>Fecha</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+
+        <tbody id="tbodySolicitudes">
+            <tr><td colspan="8">Cargando solicitudes...</td></tr>
+        </tbody>
+    </table>
+
+    <a class="volver" href="operaciones.html">Volver al menú</a>
+</div>
+
+<img src="../img/camion.png" class="logo-bottom">
+
+<script>
+
+// Normalizar fecha
+function normalizarFecha(f) {
+    if (!f) return "";
+    try { return new Date(f).toISOString().slice(0, 10); }
+    catch { return f; }
+}
+
+async function cargarSolicitudes() {
+    try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("http://localhost:3000/solicitudes", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        let solicitudes = await res.json();
+        const tbody = document.getElementById("tbodySolicitudes");
+        tbody.innerHTML = "";
+
+        // ❌ NO mostrar finalizadas
+        solicitudes = solicitudes.filter(s =>
+        s.estado.toLowerCase() !== "finalizada" &&
+        s.estado.toLowerCase() !== "completada"
+    );
+            if (solicitudes.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="8">No hay solicitudes disponibles.</td></tr>
+            `;
+            return;
+        }
+
+        solicitudes.forEach(sol => {
+
+            const clienteNombre = sol.cliente?.nombre || "Sin cliente";
+
+            let boton = "";
+
+            // -----------------------------------
+            // LÓGICA FINAL QUE PEDISTE
+            // -----------------------------------
+            if (sol.estado === "pendiente") {
+                boton = `<button class="btn-asignar" onclick="verAsignar(${sol.id})">Ver / Asignar</button>`;
+            }
+            else if (sol.estado === "asignada") {
+                boton = `<button class="btn-asignar-disabled" disabled>Ver / Asignar</button>`;
+            }
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${sol.id}</td>
+                    <td>${clienteNombre}</td>
+                    <td>${sol.tipo_servicio || "—"}</td>
+                    <td>${normalizarFecha(sol.fecha)}</td>
+                    <td>${sol.origen}</td>
+                    <td>${sol.destino}</td>
+                    <td>${sol.estado}</td>
+                    <td>${boton}</td>
+                </tr>
+            `;
+        });
+
+    } catch (err) {
+        console.error("Error cargando solicitudes:", err);
+        alert("Error cargando solicitudes.");
+    }
+}
+
+function verAsignar(id) {
+    location.href = `asignarViaje.html?id=${id}`;
+}
+
+cargarSolicitudes();
+
+</script>
+
+</body>
+</html>

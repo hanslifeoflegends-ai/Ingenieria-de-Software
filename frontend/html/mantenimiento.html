@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Mantenimiento</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 55%;
+            margin: 45px auto;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #001f5b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #002b63;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 90px;
+            resize: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: #1a22ff;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background: #001bb8;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .volver a {
+            color: #001f5b;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #1a22ff;
+            color: white;
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.25;
+            width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png" alt="Bandera de Chile">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <div class="card">
+        <h2>Registro de Mantenimiento</h2>
+
+        <label for="camion">Camión</label>
+        <select id="camion">
+            <option value="">Seleccione un camión</option>
+        </select>
+
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha">
+
+        <label for="tipo">Tipo de mantenimiento</label>
+        <select id="tipo">
+            <option value="">Seleccione tipo</option>
+            <option value="Preventivo">Preventivo</option>
+            <option value="Correctivo">Correctivo</option>
+            <option value="Revisión General">Revisión General</option>
+            <option value="Cambio de aceite">Cambio de aceite</option>
+        </select>
+
+        <label for="detalle">Descripción</label>
+        <textarea id="detalle" placeholder="Detalle del mantenimiento realizado"></textarea>
+
+        <button class="btn-primary" onclick="guardarMantenimiento()">Registrar Mantenimiento</button>
+
+        <table id="tablaMantenimiento">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Camión</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="4">Cargando historial...</td></tr>
+            </tbody>
+        </table>
+
+        <div class="volver">
+            <a href="administracion.html">← Volver</a>
+        </div>
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+<script>
+
+// =======================================
+// CARGAR CAMIONES EN MANTENIMIENTO
+// =======================================
+async function cargarCamiones() {
+    try {
+        const res = await fetch("/camiones/mantenimiento");
+
+        if (!res.ok) return alert("No se pudieron cargar los camiones en mantenimiento.");
+
+        const data = await res.json();
+        const select = document.getElementById("camion");
+
+        select.innerHTML = `<option value="">Seleccione un camión</option>`;
+
+        data.forEach(c => {
+            const opt = document.createElement("option");
+            opt.value = c.id;
+            opt.textContent = `${c.patente} — ${c.modelo}`;
+            select.appendChild(opt);
+        });
+
+    } catch (err) {
+        console.error("Error cargando camiones:", err);
+    }
+}
+
+
+// =======================================
+// CARGAR HISTORIAL
+// =======================================
+async function cargarHistorial() {
+    try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("/mantenimiento", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+
+        const tbody = document.querySelector("#tablaMantenimiento tbody");
+        tbody.innerHTML = "";
+
+        if (!Array.isArray(data) || data.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4'>No hay mantenimientos registrados.</td></tr>";
+            return;
+        }
+
+        data.forEach(m => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${m.fecha}</td>
+                    <td>${m.camion}</td>
+                    <td>${m.tipo}</td>
+                    <td>${m.detalle}</td>
+                </tr>`;
+        });
+
+    } catch (err) {
+        console.error("Error cargando historial:", err);
+    }
+}
+
+
+// =======================================
+// GUARDAR MANTENIMIENTO
+// =======================================
+async function guardarMantenimiento() {
+
+    const camion = document.getElementById("camion").value;
+    const fecha = document.getElementById("fecha").value;
+    const tipo = document.getElementById("tipo").value;
+    const detalle = document.getElementById("detalle").value;
+
+    if (!camion || !fecha || !tipo || !detalle)
+        return alert("Complete todos los campos.");
+
+    try {
+
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("/mantenimiento", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ camion, fecha, tipo, detalle })
+        });
+
+        const msg = await res.json();
+
+        if (!res.ok) return alert(msg.mensaje || "Error registrando.");
+
+        alert("✔ Mantenimiento registrado.");
+
+        cargarHistorial();
+        cargarCamiones();
+
+    } catch (err) {
+        console.error("Error registrando:", err);
+        alert("Error registrando mantenimiento.");
+    }
+}
+
+
+// Inicializar
+cargarCamiones();
+cargarHistorial();
+
+</script>
+
+</body>
+</html>

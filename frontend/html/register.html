@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuenta - Registro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+        }
+
+        .container {
+            width: 40%;
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            color: #001f5b;
+            margin-bottom: 25px;
+            font-weight: 900;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #1a22ff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #001a99;
+        }
+
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #0033a0;
+            text-decoration: none;
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png" alt="Chile">
+        </div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="container">
+        <h2>Crear Cuenta</h2>
+
+        <input type="text" id="nombre" placeholder="Nombre completo">
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+
+        <!-- Rol oculto: siempre será USUARIO -->
+        <input type="hidden" id="rol" value="usuario">
+
+        <button class="btn-primary" onclick="registrarUsuario()">Crear Cuenta</button>
+
+        <a class="volver" href="login.html">Volver al Login</a>
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+    <!-- SCRIPT CORREGIDO -->
+    <script>
+        async function registrarUsuario() {
+            const nombre = document.getElementById("nombre").value.trim();
+            const correo = document.getElementById("email").value.trim();
+            const contraseña = document.getElementById("password").value.trim();
+
+            if (!nombre || !correo || !contraseña) {
+                alert("Debe completar todos los campos.");
+                return;
+            }
+
+            const data = { nombre, correo, contraseña };
+
+            try {
+                const response = await fetch("http://localhost:3000/auth/registro", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Usuario registrado correctamente.");
+                    window.location.href = "login.html";
+                } else {
+                    alert(result.mensaje || "Error al registrar usuario.");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error de conexión con el servidor.");
+            }
+        }
+    </script>
+
+</body>
+</html>

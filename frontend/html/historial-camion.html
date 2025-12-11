@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historial por Camión</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 55%;
+            margin: 50px auto;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            color: #001f5b;
+            margin-bottom: 35px;
+            font-weight: 900;
+        }
+
+        label {
+            font-weight: bold;
+            color: #001f5b;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #1a22ff;
+            color: white;
+            padding: 16px;
+            border-radius: 15px;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #001bb8;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1a22ff;
+            color: white;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .volver a {
+            color: #001f5b;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo-bottom {
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            width: 120px;
+            opacity: 0.25;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png" alt="Bandera Chile">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">Cerrar Sesión</button>
+    </div>
+
+    <div class="card">
+        <h2>Historial por Camión</h2>
+
+        <label for="camion">Seleccionar Camión</label>
+        <select id="camion">
+            <option value="">Seleccione un camión</option>
+        </select>
+
+        <button class="btn-primary" onclick="cargarHistorial()">Buscar Historial</button>
+
+        <table id="tablaHistorial">
+            <thead>
+                <tr>
+                    <th>ID Viaje</th>
+                    <th>Fecha</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Cliente</th>
+                    <th>Conductor</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="7">Seleccione un camión para ver su historial.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="volver">
+            <a href="operaciones.html">← Volver</a>
+        </div>
+    </div>
+
+    <img src="../img/camion.png" class="logo-bottom">
+
+    <script>
+        // ============================================
+        // MAPEADOR SIMPLE (el backend ya viene formateado)
+        // ============================================
+        function mapViaje(v) {
+            return {
+                id: v.id,
+                fecha: v.fecha ? v.fecha.slice(0, 10) : "—",
+                origen: v.origen || "—",
+                destino: v.destino || "—",
+                cliente: v.cliente || "—",
+                conductor: v.conductor || "—",
+                estado: v.estado || "—"
+            };
+        }
+
+        // =====================================================
+        // CARGAR CAMIONES
+        // =====================================================
+        async function cargarCamiones() {
+            try {
+                const res = await fetch("http://localhost:3000/camiones", {
+                    headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+                });
+
+                const data = await res.json();
+                const select = document.getElementById("camion");
+
+                data.forEach(c => {
+                    const option = document.createElement("option");
+                    option.value = c.id;
+                    option.textContent = `${c.patente} (${c.modelo ?? c.capacidad + " ton"})`;
+                    select.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error("Error cargando camiones:", error);
+                alert("No se pudieron cargar los camiones.");
+            }
+        }
+
+        // =====================================================
+        // CARGAR HISTORIAL POR CAMIÓN
+        // =====================================================
+        async function cargarHistorial() {
+            const id = document.getElementById("camion").value;
+            if (!id) return alert("Seleccione un camión.");
+
+            try {
+                const res = await fetch(`http://localhost:3000/viajes/camion/${id}`, {
+                    headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+                });
+
+                const tbody = document.querySelector("#tablaHistorial tbody");
+                tbody.innerHTML = "";
+
+                if (!res.ok) {
+                    tbody.innerHTML = "<tr><td colspan='7'>No hay viajes registrados.</td></tr>";
+                    return;
+                }
+
+                const data = await res.json();
+                if (!data.length) {
+                    tbody.innerHTML = "<tr><td colspan='7'>No hay viajes registrados.</td></tr>";
+                    return;
+                }
+
+                data.forEach(v => {
+                    const viaje = mapViaje(v);
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${viaje.id}</td>
+                            <td>${viaje.fecha}</td>
+                            <td>${viaje.origen}</td>
+                            <td>${viaje.destino}</td>
+                            <td>${viaje.cliente}</td>
+                            <td>${viaje.conductor}</td>
+                            <td>${viaje.estado}</td>
+                        </tr>
+                    `;
+                });
+
+            } catch (error) {
+                console.error("Error cargando historial:", error);
+                alert("No se pudo cargar el historial del camión.");
+            }
+        }
+
+        cargarCamiones();
+
+    </script>
+
+</body>
+</html>

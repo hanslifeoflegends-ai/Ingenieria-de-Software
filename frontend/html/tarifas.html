@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cálculo de Costos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .empresa img {
+            width: 40px;
+        }
+
+        .card {
+            width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 34px;
+            color: #001f5b;
+            font-weight: 900;
+        }
+
+        label {
+            font-weight: bold;
+            color: #001f5b;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        input[disabled] {
+            background: #e6e6e6;
+            color: #555;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #1a22ff;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background: #001bb8;
+        }
+
+        .btn-volver {
+            background: #444;
+        }
+
+        .btn-volver:hover {
+            background: #222;
+        }
+
+        .mensaje-ok, .mensaje-alerta {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .mensaje-ok {
+            background: #e7ffe7;
+            color: #054b05;
+            border-left: 6px solid #0a8a0a;
+        }
+
+        .mensaje-alerta {
+            background: #fff4d6;
+            color: #8a5300;
+            border-left: 6px solid #d6a400;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="empresa">
+        <span>TRANSPORTES SEPÚLVEDA</span>
+        <img src="../img/chile.png">
+    </div>
+
+    <button id="btnLogout">Cerrar Sesión</button>
+</div>
+
+<div class="card">
+
+    <h2>Cálculo de Costos</h2>
+
+    <label>Tipo de Carga</label>
+    <select id="tipoCarga">
+        <option value="">Seleccione tipo de carga...</option>
+        <option value="aridos">Áridos</option>
+        <option value="agricola">Agrícola</option>
+        <option value="general">General / Otro</option>
+    </select>
+
+    <label>Distancia del Viaje (Km)</label>
+    <input type="number" id="distancia" disabled>
+
+    <label>Tarifa Base (CLP)</label>
+    <input type="number" id="tarifaBase">
+
+    <label>Costo por Kilómetro (CLP)</label>
+    <input type="number" id="costoKm">
+
+    <button class="btn" onclick="calcularCosto()">Calcular Costo Total</button>
+
+    <button class="btn btn-volver" id="btnVolver">
+        ← Volver al Menú
+    </button>
+
+    <!-- Mensajes -->
+    <div id="mensajeOk" class="mensaje-ok">✔ Costo guardado correctamente.</div>
+    <div id="mensajeAlerta" class="mensaje-alerta">⚠ Debes calcular el costo antes de continuar.</div>
+
+</div>
+
+<script>
+let costoCalculado = false;
+const API_URL = "http://localhost:3000";
+
+// ================================
+// Cargar datos desde localStorage
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const km = localStorage.getItem("kmRecorridos");
+    if (km) document.getElementById("distancia").value = km;
+
+    let tipo = localStorage.getItem("tipoCarga");
+    const select = document.getElementById("tipoCarga");
+
+    if (tipo) {
+        tipo = tipo.toLowerCase().trim();
+        select.value = tipo;
+        actualizarTarifaBase();
+        select.disabled = true;
+    } else {
+        select.addEventListener("change", actualizarTarifaBase);
+    }
+});
+
+// ================================
+// Tarifa base automática
+// ================================
+function actualizarTarifaBase() {
+    const tipo = document.getElementById("tipoCarga").value;
+    const tarifaBase = document.getElementById("tarifaBase");
+
+    if (tipo === "aridos") {
+        tarifaBase.value = 35000;
+        tarifaBase.disabled = true;
+    } else if (tipo === "agricola") {
+        tarifaBase.value = 30000;
+        tarifaBase.disabled = true;
+    } else {
+        tarifaBase.value = "";
+        tarifaBase.disabled = false;
+    }
+
+    costoCalculado = false;
+}
+
+// ================================
+// GUARDAR INGRESO EN VIAJE
+// ================================
+async function guardarIngresoEnViaje(ingreso) {
+    const viajeId = localStorage.getItem("viajeId");
+
+    if (!viajeId) {
+        console.warn("No existe viajeId en localStorage");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/viajes/${viajeId}/ingreso`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify({ ingreso }) // ✔ ahora sí existe
+        });
+
+        const data = await res.json();
+        console.log("✔ Ingreso guardado:", data);
+
+    } catch (error) {
+        console.error("❌ Error guardando ingreso:", error);
+    }
+}
+
+// ================================
+// CALCULAR COSTO
+// ================================
+function calcularCosto() {
+    const km = parseFloat(document.getElementById("distancia").value);
+    const base = parseFloat(document.getElementById("tarifaBase").value);
+    const costoKm = parseFloat(document.getElementById("costoKm").value);
+
+    if (isNaN(km) || isNaN(base) || isNaN(costoKm)) {
+        alert("Debe completar todos los campos.");
+        return;
+    }
+
+    const total = base + (km * costoKm);
+
+    alert("Costo total: $" + total.toLocaleString("es-CL"));
+
+    localStorage.setItem("costoViaje", total);
+    costoCalculado = true;
+
+    // Pasa el valor correcto (total) a la función guardarIngresoEnViaje
+    guardarIngresoEnViaje(total);
+
+    document.getElementById("mensajeOk").style.display = "block";
+
+    setTimeout(() => {
+        document.getElementById("mensajeOk").style.display = "none";
+    }, 5000);
+}
+
+
+// ================================
+// Control de botones
+// ================================
+document.getElementById("btnVolver").addEventListener("click", () => {
+    if (!costoCalculado) {
+        document.getElementById("mensajeAlerta").style.display = "block";
+        return;
+    }
+    location.href = "operaciones.html";
+});
+
+document.getElementById("btnLogout").addEventListener("click", () => {
+    if (!costoCalculado) {
+        document.getElementById("mensajeAlerta").style.display = "block";
+        return;
+    }
+    location.href = "login.html";
+});
+</script>
+
+</body>
+</html>

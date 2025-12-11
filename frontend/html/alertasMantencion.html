@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alertas de Mantención</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        body {
+            background-color: #eef0ff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            width: 100%;
+            background: #1a22ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .empresa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .empresa img {
+            width: 40px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1a22ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 75%;
+            background: white;
+            margin: 40px auto;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #001f5b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            font-size: 16px;
+        }
+
+        th {
+            background: #ff4848;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            font-weight: bold;
+            color: #0033a0;
+            text-decoration: none;
+        }
+
+        .alert-icon {
+            color: red;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        #btnMantencionRealizada {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
+
+        #btnMantencionRealizada:hover {
+            background: #218838;
+        }
+    </style>
+
+    <script defer src="../js/alertasMantencion.js"></script>
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="empresa">
+            <span>TRANSPORTES SEPÚLVEDA</span>
+            <img src="../img/chile.png">
+        </div>
+
+        <button class="logout-btn" onclick="location.href='login.html'">
+            Cerrar Sesión
+        </button>
+    </div>
+
+    <div class="container">
+        <h2>Alertas de Mantención</h2>
+
+        <table id="tablaAlertas">
+            <thead>
+                <tr>
+                    <th>Patente</th>
+                    <th>Kilómetros Totales</th>
+                    <th>Km Última Mantención</th>
+                    <th>Diferencia</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Botón para confirmar que el mantenimiento ha sido realizado -->
+        <button id="btnMantencionRealizada">
+            Mantenimiento Realizado
+        </button>
+
+        <a class="volver" href="administracion.html">← Volver</a>
+    </div>
+
+</body>
+</html>
